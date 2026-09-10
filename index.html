@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SANSKRITISETU - AI & AR Cultural Experience</title>
+    <meta name="theme-color" content="#07131c">
+    <meta name="description" content="Explore India's living heritage through stories, maps, crafts, and immersive experiences.">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="navbar">
+            <div class="brand-block">
+                <div class="brand-mark">S</div>
+                <div>
+                    <h1>SANSKRITISETU</h1>
+                    <p>Indian Heritage Reimagined</p>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <a href="#explore">Explore</a>
+                <a href="#map-section">Map</a>
+                <a href="#guide">Guide</a>
+            </nav>
+        </header>
+
+        <div class="mission-bar" role="status">
+            <span class="mission-dot"></span>
+            <strong>Living Heritage Mission</strong>
+            <span>Discover. Understand. Support the people who keep culture alive.</span>
+            <span class="mission-live">Prototype live</span>
+        </div>
+
+        <section class="hero-panel" id="explore">
+            <div class="hero-copy">
+                <span class="eyebrow">AI + WebXR + Cultural Economy</span>
+                <h2>Preserve India’s heritage through stories, art, and immersive experiences.</h2>
+                <p>
+                    SANSKRITISETU brings together heritage storytelling, AR exploration, artisan discovery,
+                    and multilingual cultural guidance to make tradition alive for every generation.
+                </p>
+
+                <div class="hero-actions">
+                    <button class="primary-btn" id="startExperienceBtn">Start Experience</button>
+                    <button class="secondary-btn" id="exploreHeritageBtn">Explore Heritage</button>
+                </div>
+
+                <div class="stats-row">
+                    <div>
+                        <strong>24+</strong>
+                        <span>States Curated</span>
+                    </div>
+                    <div>
+                        <strong>120+</strong>
+                        <span>Craft & Art Forms</span>
+                    </div>
+                    <div>
+                        <strong>8+</strong>
+                        <span>Languages Supported</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="heritage-collage" aria-label="A collage of Indian heritage traditions">
+                    <div class="collage-tile architecture"><span>Architecture</span></div>
+                    <div class="collage-tile arts"><span>Classical arts</span></div>
+                    <div class="collage-tile craft"><span>Living craft</span></div>
+                    <div class="collage-tile festival"><span>Festivals</span></div>
+                </div>
+                <div class="floating-card accent">
+                    <span>Live cultural pulse</span>
+                    <strong>Heritage Map</strong>
+                    <small>4 active discovery routes</small>
+                </div>
+                <div class="floating-card glass">
+                    <span>Featured Story</span>
+                    <strong>Konark Sun Temple</strong>
+                    <small>14th-century marvel • Odisha</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="impact-strip" aria-label="Platform impact areas">
+            <article>
+                <span class="impact-number">01</span>
+                <div><strong>Preserve memory</strong><small>Document stories, rituals, and skills before they disappear.</small></div>
+            </article>
+            <article>
+                <span class="impact-number">02</span>
+                <div><strong>Make it accessible</strong><small>Turn complex history into visual, multilingual discovery.</small></div>
+            </article>
+            <article>
+                <span class="impact-number">03</span>
+                <div><strong>Grow local value</strong><small>Connect curious people with authentic artisan communities.</small></div>
+            </article>
+        </section>
+
+        <section class="state-discovery">
+            <div class="section-intro">
+                <span class="eyebrow">Cultural discovery</span>
+                <h3>Explore India’s living traditions</h3>
+            </div>
+
+            <div class="search-panel">
+                <input id="stateSearchInput" type="text" placeholder="Search any state, festival, craft, or heritage..." />
+                <button id="stateSearchBtn">Search Culture</button>
+            </div>
+
+            <div class="quick-searches" aria-label="Popular culture searches">
+                <span>Try a lens</span>
+                <button data-state-search="Rajasthan">Desert traditions</button>
+                <button data-state-search="Odisha">Temple heritage</button>
+                <button data-state-search="Assam">River cultures</button>
+                <button data-state-search="Punjab">Harvest festivals</button>
+            </div>
+
+            <div class="state-grid" id="stateGrid"></div>
+
+            <div class="culture-profile-panel">
+                <div class="profile-header">
+                    <div>
+                        <span class="eyebrow">State profile</span>
+                        <h4 id="stateName">Kerala</h4>
+                    </div>
+                    <span class="pill" id="stateTag">Backwaters & Arts</span>
+                </div>
+
+                <p id="stateSummary">
+                    Kerala is known for its lush landscapes, classical arts, vibrant festivals, and deep-rooted traditions that blend spirituality, craft, and community life.
+                </p>
+
+                <div class="profile-dimensions" id="profileDimensions"></div>
+            </div>
+        </section>
+
+        <main class="dashboard-grid">
+            <section class="card immersive-card">
+                <div class="card-head">
+                    <h2>3D Heritage Portal</h2>
+                    <span class="pill">AR Preview</span>
+                </div>
+
+                <div class="portal-search-heading">
+                    <div>
+                        <span class="search-kicker">Heritage finder</span>
+                        <p>Search a monument, craft, or living tradition</p>
+                    </div>
+                    <span class="search-status" id="heritageSearchStatus" aria-live="polite">Ready to explore</span>
+                </div>
+
+                <div class="heritage-search-box">
+                    <div class="suggestion-field">
+                        <span class="search-icon" aria-hidden="true">⌕</span>
+                        <input id="heritageSearchInput" type="text" placeholder="Try Konark, Warli, or Taj Mahal..." value="Konark Sun Temple" autocomplete="off" aria-label="Search the heritage portal" />
+                        <button class="clear-search" id="clearHeritageSearch" type="button" aria-label="Clear heritage search" title="Clear search">×</button>
+                        <div class="suggestion-list" id="heritageSuggestions" role="listbox" hidden></div>
+                    </div>
+                    <button class="portal-search-button" id="heritageSearchBtn"><span aria-hidden="true">↗</span> Explore</button>
+                </div>
+
+                <div class="model-container shimmer-wrap">
+                    <div class="model-fallback" id="modelFallback">
+                        <span>Immersive heritage view</span>
+                        <strong>Loading heritage experience...</strong>
+                        <small>Explore the visual story while the 3D layer prepares.</small>
+                    </div>
+                    <model-viewer
+                        id="heritageViewer"
+                        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+                        alt="3D Heritage Experience"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look"
+                        camera-controls
+                        auto-rotate
+                        shadow-intensity="1">
+                        <button slot="ar-button" class="ar-btn">View in 3D AR</button>
+                    </model-viewer>
+                </div>
+
+                <div class="info-box" id="heritageInfoBox">
+                    <strong>Featured Heritage: Konark Sun Temple</strong>
+                    <p>13th-century stone chariot shaped temple in Odisha, symbolizing movement, cosmic rhythm, and temple architecture.</p>
+                </div>
+            </section>
+
+            <section class="card map-card" id="map-section">
+                <div class="card-head">
+                    <h2>Regional Heritage Map</h2>
+                    <span class="pill">GI & Culture</span>
+                </div>
+
+                <div class="map-search-box">
+                    <div class="suggestion-field">
+                        <input id="mapHeritageSearchInput" type="text" placeholder="Search a heritage place..." aria-label="Search a heritage place on the map" autocomplete="off" />
+                        <div class="suggestion-list" id="mapHeritageSuggestions" role="listbox" hidden></div>
+                    </div>
+                    <button id="mapHeritageSearchBtn">Search Map</button>
+                </div>
+
+                <div id="map"></div>
+
+                <div class="map-detail" id="mapHeritageDetails" aria-live="polite">
+                    <span class="eyebrow">Select a place</span>
+                    <p>Touch a heritage marker to see its story, region, and cultural category.</p>
+                </div>
+
+            </section>
+
+            <section class="card chat-card" id="guide">
+                <div class="card-head">
+                    <h2>SANSKRITISETU AI Guide</h2>
+                    <span class="pill">Voice + Chat</span>
+                </div>
+
+                <div class="chat-messages" id="chatHistory">
+                    <div class="msg ai">
+                        <span class="sender">SANSKRITISETU AI</span>
+                        Namaste! Ask me about heritage, monuments, crafts, festivals, or language traditions in India.
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="userInput" placeholder="Ask about Indian heritage..." onkeydown="if(event.key==='Enter') sendMessage()">
+                    <button class="voice-btn" id="voiceInputBtn" type="button" aria-label="Ask by voice" title="Ask by voice">&#127908;</button>
+                    <button onclick="sendMessage()">Ask</button>
+                </div>
+                <div class="suggestion-list guide-suggestions" id="guideSuggestions" role="listbox" hidden></div>
+                <div class="guide-prompts" aria-label="Suggested questions">
+                    <span>Try asking</span>
+                    <button type="button" data-guide-prompt="What makes Konark Sun Temple special?">Konark's story</button>
+                    <button type="button" data-guide-prompt="Tell me about Warli art">Warli art</button>
+                    <button type="button" data-guide-prompt="What is special about the Golden Temple?">Golden Temple</button>
+                </div>
+                <div class="recent-explorations" id="recentExplorations" hidden></div>
+            </section>
+        </main>
+
+    </div>
+
+    <script>
+        const heritageSites = window.heritageSites = [
+            {
+                name: 'Madhubani Art', query: 'Madhubani Art', lat: 26.3491, lng: 86.0721,
+                type: 'GI Craft (Bihar)', detail: 'A vibrant Mithila folk painting tradition known for mythological motifs and natural dyes.'
+            },
+            {
+                name: 'Konark Sun Temple', query: 'Konark Sun Temple', lat: 19.8876, lng: 86.0945,
+                type: 'Monument (Odisha)', detail: 'A 13th-century stone chariot-shaped temple dedicated to the Sun God Surya.',
+                sourceUrl: 'https://whc.unesco.org/en/list/246/', sourceLabel: 'UNESCO profile'
+            },
+            {
+                name: 'Tanjore Painting', query: 'Tanjore Painting', lat: 10.7870, lng: 79.1378,
+                type: 'GI Craft (Tamil Nadu)', detail: 'A classical South Indian art form known for rich pigments, gold foil, and temple-inspired narratives.'
+            },
+            {
+                name: 'Warli Folk Art', query: 'Warli Art', lat: 19.6967, lng: 72.8493,
+                type: 'GI Craft (Maharashtra)', detail: 'A tribal mural tradition that reflects village life, rituals, and seasonal rhythms.'
+            },
+            {
+                name: 'Taj Mahal', query: 'Taj Mahal', lat: 27.1751, lng: 78.0421,
+                type: 'Monument (Uttar Pradesh)', detail: 'A marble mausoleum in Agra, celebrated for Mughal architecture, symmetry, and devotion.',
+                sourceUrl: 'https://whc.unesco.org/en/list/252/', sourceLabel: 'UNESCO profile'
+            },
+            {
+                name: 'Hampi', query: 'Hampi', lat: 15.3350, lng: 76.4600,
+                type: 'Ruins (Karnataka)', detail: 'The monumental landscape of the Vijayanagara Empire, filled with temples, bazaars, and historic water systems.',
+                sourceUrl: 'https://whc.unesco.org/en/list/241/', sourceLabel: 'UNESCO profile'
+            },
+            {
+                name: 'Qutub Minar', query: 'Qutub Minar', lat: 28.5244, lng: 77.1855,
+                type: 'Monument (Delhi)', detail: 'A UNESCO-listed minaret representing Indo-Islamic architecture and early Delhi Sultanate history.',
+                sourceUrl: 'https://whc.unesco.org/en/list/233/', sourceLabel: 'UNESCO profile'
+            },
+            {
+                name: 'Golden Temple', query: 'Golden Temple', lat: 31.6200, lng: 74.8765,
+                type: 'Sacred Site (Punjab)', detail: 'The Harmandir Sahib in Amritsar is a spiritual center known for its gilded sanctum, reflection pool, and langar tradition.'
+            },
+            {
+                name: 'Kutch Embroidery', query: 'Kutch Embroidery', lat: 23.7337, lng: 69.8597,
+                type: 'GI Craft (Gujarat)', detail: 'A richly detailed textile tradition using mirror work, bold threads, and motifs tied to community identity.'
+            },
+            {
+                name: 'Channapatna Toys', query: 'Channapatna Toys', lat: 12.6518, lng: 77.2067,
+                type: 'GI Craft (Karnataka)', detail: 'A craft tradition of turned wooden toys known for sustainable wood, bright colors, and natural finishes.'
+            },
+            {
+                name: 'Kashmiri Pashmina', query: 'Kashmiri Pashmina', lat: 34.0837, lng: 74.7973,
+                type: 'Handloom (Kashmir)', detail: 'Fine mountain wool transformed into heirloom textiles through patient hand-spinning, weaving, and embroidery.'
+            },
+            {
+                name: 'Victoria Memorial', query: 'Victoria Memorial', lat: 22.5448, lng: 88.3426,
+                type: 'Monument (Kolkata)', detail: 'A grand marble museum and memorial surrounded by gardens, built in the Indo-Saracenic style.'
+            },
+            {
+                name: 'Howrah Bridge', query: 'Howrah Bridge', lat: 22.5851, lng: 88.3468,
+                type: 'Engineering Heritage (Kolkata)', detail: 'An iconic cantilever bridge over the Hooghly River and one of Kolkata’s defining landmarks.'
+            },
+            {
+                name: 'Indian Museum', query: 'Indian Museum', lat: 22.5576, lng: 88.3506,
+                type: 'Museum (Kolkata)', detail: 'India’s oldest and largest multipurpose museum, holding collections spanning archaeology, art, and natural history.'
+            },
+            {
+                name: 'Marble Palace', query: 'Marble Palace', lat: 22.5958, lng: 88.3630,
+                type: 'Historic House (Kolkata)', detail: 'A nineteenth-century mansion known for neoclassical architecture, sculpture, paintings, and an eclectic collection.'
+            },
+            {
+                name: 'Bishnupur Terracotta Temples', query: 'Bishnupur Terracotta Temples', lat: 23.0735, lng: 87.3199,
+                type: 'Temple Heritage (Bankura)', detail: 'A remarkable group of terracotta temples decorated with panels showing stories, musicians, animals, and daily life.'
+            },
+            {
+                name: 'Hazarduari Palace', query: 'Hazarduari Palace', lat: 24.1838, lng: 88.2717,
+                type: 'Palace (Murshidabad)', detail: 'A nineteenth-century palace beside the Bhagirathi River, known for its thousand-door design and historic collections.'
+            },
+            {
+                name: 'Darjeeling Himalayan Railway', query: 'Darjeeling Himalayan Railway', lat: 27.0410, lng: 88.2663,
+                type: 'UNESCO Railway (Darjeeling)', detail: 'A historic mountain railway whose narrow-gauge route connects Darjeeling with the foothills through dramatic Himalayan scenery.'
+            },
+            {
+                name: 'Sundarbans National Park', query: 'Sundarbans National Park', lat: 21.9497, lng: 88.8980,
+                type: 'Natural Heritage (South 24 Parganas)', detail: 'A UNESCO-listed mangrove landscape shaped by tides, waterways, and one of the world’s largest delta ecosystems.'
+            },
+            {
+                name: 'Santiniketan', query: 'Santiniketan', lat: 23.6770, lng: 87.6855,
+                type: 'Cultural Heritage (Birbhum)', detail: 'The educational and cultural landscape founded around Visva-Bharati, shaped by Rabindranath Tagore’s ideas of learning and art.'
+            },
+            {
+                name: 'Belur Math', query: 'Belur Math', lat: 22.6324, lng: 88.3559,
+                type: 'Spiritual Heritage (Howrah)', detail: 'The headquarters of the Ramakrishna Math and Mission, known for its inclusive architecture and riverside cultural setting.'
+            },
+            {
+                name: 'Kalighat Temple', query: 'Kalighat Temple', lat: 22.5204, lng: 88.3429,
+                type: 'Temple Heritage (Kolkata)', detail: 'A major Shakti pilgrimage site in Kolkata and the namesake of the city’s famous Kalighat painting tradition.'
+            },
+            {
+                name: 'Lepakshi Temple', query: 'Lepakshi Temple', lat: 14.1218, lng: 77.6070,
+                type: 'Temple Heritage (Andhra Pradesh)', state: 'Andhra Pradesh', period: '16th century',
+                detail: 'The Veerabhadra Temple at Lepakshi is known for Vijayanagara sculpture, painted ceilings, a monolithic Nandi, and its famous hanging pillar.',
+                facts: 'Its murals and carved pillars document South Indian temple art under the Vijayanagara Empire.'
+            },
+            {
+                name: 'Tawang Monastery', query: 'Tawang Monastery', lat: 27.5860, lng: 91.8590,
+                type: 'Monastery (Arunachal Pradesh)', state: 'Arunachal Pradesh', period: '17th century',
+                detail: 'Tawang Monastery is one of the largest Buddhist monasteries in India and a major center of the Mahayana Buddhist tradition.',
+                facts: 'Its high Himalayan setting, prayer halls, manuscripts, and festivals connect architecture with living religious practice.'
+            },
+            {
+                name: 'Bhoramdeo Temples', query: 'Bhoramdeo Temples', lat: 22.1367, lng: 81.1906,
+                type: 'Temple Heritage (Chhattisgarh)', state: 'Chhattisgarh', period: '11th century',
+                detail: 'The Bhoramdeo temple group is celebrated for detailed stone sculpture, Shaiva imagery, and its forested setting near Kawardha.',
+                facts: 'The temples show the artistic links between central Indian sacred architecture and regional dynasties.'
+            },
+            {
+                name: 'Old Goa Churches', query: 'Old Goa Churches', lat: 15.5009, lng: 73.9110,
+                type: 'Church Heritage (Goa)', state: 'Goa', period: '16th-17th centuries',
+                detail: 'The churches and convents of Old Goa preserve a major Indo-Portuguese architectural and Catholic heritage landscape.',
+                facts: 'The Basilica of Bom Jesus and Se Cathedral reflect Goa’s role as a historic Indian Ocean cultural crossroads.'
+            },
+            {
+                name: 'Rakhigarhi', query: 'Rakhigarhi', lat: 29.2820, lng: 76.1080,
+                type: 'Archaeological Heritage (Haryana)', state: 'Haryana', period: '3rd millennium BCE',
+                detail: 'Rakhigarhi is one of the largest known settlements of the Indus or Harappan Civilisation, with evidence of planned streets, craft, and trade.',
+                facts: 'The site helps researchers understand urban life in the northwestern Indian subcontinent during the Bronze Age.'
+            },
+            {
+                name: 'Chamba Rumal', query: 'Chamba Rumal', lat: 32.5553, lng: 76.1260,
+                type: 'Textile Heritage (Himachal Pradesh)', state: 'Himachal Pradesh', period: '18th-19th centuries',
+                detail: 'Chamba rumal is an embroidered ceremonial textile known for double-sided needlework and miniature-style scenes from epics and devotion.',
+                facts: 'Its symmetrical embroidery makes the textile readable from both sides and preserves Pahari visual storytelling.'
+            },
+            {
+                name: 'Maluti Temples', query: 'Maluti Temples', lat: 24.3286, lng: 87.9657,
+                type: 'Terracotta Heritage (Jharkhand)', state: 'Jharkhand', period: '17th-19th centuries',
+                detail: 'Maluti is a historic temple village with richly decorated terracotta panels depicting mythological and everyday scenes.',
+                facts: 'The temple cluster demonstrates how local patronage sustained Bengal-influenced terracotta architecture in eastern India.'
+            },
+            {
+                name: 'Mysuru Palace', query: 'Mysuru Palace', lat: 12.3052, lng: 76.6552,
+                type: 'Palace Heritage (Karnataka)', state: 'Karnataka', period: '1912',
+                detail: 'Mysuru Palace is an Indo-Saracenic royal residence known for stained glass, carved interiors, ceremonial halls, and illuminated festivals.',
+                facts: 'Its design combines Hindu, Islamic, Rajput, and Gothic influences and remains central to Mysuru Dasara.'
+            },
+            {
+                name: 'Sree Padmanabhaswamy Temple', query: 'Padmanabhaswamy Temple', lat: 8.4824, lng: 76.9435,
+                type: 'Temple Heritage (Kerala)', state: 'Kerala', period: 'Historic, present form 18th century',
+                detail: 'Sree Padmanabhaswamy Temple in Thiruvananthapuram is a major Vaishnavite shrine with a monumental gopuram and Dravidian-Kerala features.',
+                facts: 'Its rituals, temple administration, murals, and architecture form part of Kerala’s living sacred heritage.'
+            },
+            {
+                name: 'Khajuraho Temples', query: 'Khajuraho Temples', lat: 24.8318, lng: 79.9199,
+                type: 'Temple Heritage (Madhya Pradesh)', state: 'Madhya Pradesh', period: '10th-11th centuries',
+                detail: 'The Khajuraho group is known for finely carved sandstone temples representing sacred stories, celestial figures, music, dance, and everyday life.',
+                facts: 'The surviving temples are an outstanding record of Chandela-era architecture and sculpture.'
+            },
+            {
+                name: 'Kangla Fort', query: 'Kangla Fort', lat: 24.8074, lng: 93.9368,
+                type: 'Historic Fort (Manipur)', state: 'Manipur', period: 'Ancient to 19th century',
+                detail: 'Kangla Fort in Imphal was the traditional seat of Manipur’s rulers and remains a powerful symbol of the state’s political and cultural history.',
+                facts: 'Its sacred structures, royal remains, and water landscape connect statecraft with Meitei cultural memory.'
+            },
+            {
+                name: 'Living Root Bridges', query: 'Living Root Bridges', lat: 25.2700, lng: 91.7300,
+                type: 'Living Heritage (Meghalaya)', state: 'Meghalaya', period: 'Living tradition',
+                detail: 'Living root bridges are community-made crossings trained from the roots of rubber fig trees across the wet hills of Meghalaya.',
+                facts: 'They are an example of indigenous ecological engineering that grows stronger over time and can last for generations.'
+            },
+            {
+                name: 'Cheraw Bamboo Dance', query: 'Cheraw Bamboo Dance', lat: 23.7271, lng: 92.7176,
+                type: 'Performance Heritage (Mizoram)', state: 'Mizoram', period: 'Living tradition',
+                detail: 'Cheraw is a Mizo bamboo dance in which performers coordinate steps between rhythmically tapped bamboo poles.',
+                facts: 'The performance is presented during cultural celebrations and expresses coordination, music, and community participation.'
+            },
+            {
+                name: 'Kohima War Cemetery', query: 'Kohima War Cemetery', lat: 25.6751, lng: 94.1086,
+                type: 'Memorial Heritage (Nagaland)', state: 'Nagaland', period: '20th century',
+                detail: 'Kohima War Cemetery commemorates soldiers who died during the 1944 Battle of Kohima in the Second World War.',
+                facts: 'The terraced memorial landscape is also a place of remembrance within the hills and communities of Nagaland.'
+            },
+            {
+                name: 'Rumtek Monastery', query: 'Rumtek Monastery', lat: 27.2925, lng: 88.5610,
+                type: 'Monastery (Sikkim)', state: 'Sikkim', period: '20th century, tradition older',
+                detail: 'Rumtek Monastery is a major center of Tibetan Buddhist practice, ritual art, scholarship, and monastic life in Sikkim.',
+                facts: 'Its architecture, sacred objects, masked dances, and mountain setting make it a living Himalayan heritage site.'
+            },
+            {
+                name: 'Ramappa Temple', query: 'Ramappa Temple', lat: 18.2593, lng: 79.9430,
+                type: 'Temple Heritage (Telangana)', state: 'Telangana', period: '13th century',
+                detail: 'Ramappa Temple is a Kakatiya-era temple dedicated to Shiva, noted for sandstone sculpture, lightweight bricks, and a richly carved gateway.',
+                facts: 'Its engineering and decorative program earned it UNESCO World Heritage recognition in 2021.'
+            },
+            {
+                name: 'Neermahal Palace', query: 'Neermahal Palace', lat: 23.4967, lng: 91.2637,
+                type: 'Palace Heritage (Tripura)', state: 'Tripura', period: '1930s',
+                detail: 'Neermahal is a lake palace built in the middle of Rudrasagar Lake, combining royal retreat architecture with Mughal and local influences.',
+                facts: 'Its water setting and annual cultural events connect palace history with Tripura’s wetland landscape.'
+            },
+            {
+                name: 'Rani ki Vav', query: 'Rani ki Vav', lat: 23.8589, lng: 72.1010,
+                type: 'Stepwell Heritage (Gujarat)', state: 'Gujarat', period: '11th century',
+                detail: 'Rani ki Vav at Patan is an ornate stepwell whose descending galleries are lined with sculpture and water-management architecture.',
+                facts: 'It was commissioned by Queen Udayamati in memory of King Bhima I and is a UNESCO World Heritage Site.'
+            },
+            {
+                name: 'Nalanda Mahavihara', query: 'Nalanda Mahavihara', lat: 25.1367, lng: 85.4439,
+                type: 'Archaeological Heritage (Bihar)', state: 'Bihar', period: '5th-13th centuries',
+                detail: 'Nalanda Mahavihara was a major Buddhist monastic university with residential courtyards, temples, libraries, and international scholarly connections.',
+                facts: 'Its archaeological remains document one of the world’s earliest large centers of higher learning.'
+            },
+            {
+                name: 'Dholavira', query: 'Dholavira', lat: 23.8877, lng: 70.2117,
+                type: 'Archaeological Heritage (Gujarat)', state: 'Gujarat', period: '3rd-2nd millennium BCE',
+                detail: 'Dholavira is a Harappan city on Khadir island known for planned streets, reservoirs, fortifications, and sophisticated water management.',
+                facts: 'The site reveals how an urban community adapted to an arid environment through engineering and civic planning.'
+            },
+            {
+                name: 'Ranthambore Fort', query: 'Ranthambore Fort', lat: 26.0173, lng: 76.4637,
+                type: 'Fort Heritage (Rajasthan)', state: 'Rajasthan', period: '10th century onwards',
+                detail: 'Ranthambore Fort rises within a national park and preserves gateways, temples, reservoirs, and layers of Rajput and later history.',
+                facts: 'The fort is a rare example of a historic stronghold embedded in a major wildlife and forest landscape.'
+            },
+            {
+                name: 'Golden Temple', query: 'Golden Temple', lat: 31.6200, lng: 74.8765,
+                type: 'Sacred Site (Punjab)', state: 'Punjab', period: '18th century form',
+                detail: 'The Harmandir Sahib in Amritsar is a spiritual center known for its gilded sanctum, reflection pool, scripture, and langar tradition.',
+                facts: 'Its open four-directional entrances and free community kitchen express welcome, equality, and service.'
+            },
+            {
+                name: 'Meenakshi Amman Temple', query: 'Meenakshi Amman Temple', lat: 9.9195, lng: 78.1193,
+                type: 'Temple Heritage (Tamil Nadu)', state: 'Tamil Nadu', period: 'Historic, present complex 16th-17th centuries',
+                detail: 'The Meenakshi Amman Temple in Madurai is a major Dravidian temple complex filled with sculpted gopurams, halls, shrines, and ritual routes.',
+                facts: 'Its architecture, festivals, sculpture, and daily worship make it a living center of Tamil religious and artistic culture.'
+            },
+            {
+                name: 'Sanchi Stupa', query: 'Sanchi Stupa', lat: 23.4793, lng: 77.7397,
+                type: 'Buddhist Heritage (Madhya Pradesh)', state: 'Madhya Pradesh', period: '3rd century BCE onwards',
+                detail: 'Sanchi is a Buddhist complex centered on a great stupa with gateways that narrate the Buddha’s life through symbols and stories.',
+                facts: 'The site preserves some of the earliest surviving monumental Buddhist architecture in India.'
+            },
+            {
+                name: 'Valley of Flowers', query: 'Valley of Flowers', lat: 30.7280, lng: 79.6050,
+                type: 'Natural Heritage (Uttarakhand)', state: 'Uttarakhand', period: 'Living natural heritage',
+                detail: 'The Valley of Flowers is a Himalayan alpine meadow known for seasonal wildflowers, high-altitude ecology, and dramatic mountain scenery.',
+                facts: 'Together with Nanda Devi National Park, it is a UNESCO World Heritage landscape protected for its biodiversity.'
+            }
+        ];
+
+        /* Legacy map controller moved to map.js.
+        const heritageMarkers = new Map();
+
+        heritageSites.forEach(site => {
+            const marker = L.marker([site.lat, site.lng]).addTo(map);
+            heritageMarkers.set(site.name, marker);
+            marker.bindPopup(`
+                <strong>${site.name}</strong>
+                <span class="map-popup-type">${site.type}</span>
+                <span>${site.detail}</span>
+            `);
+            marker.on('click', () => {
+                const details = document.getElementById('mapHeritageDetails');
+                const heritage = findHeritageEntry(site.query);
+                details.innerHTML = `
+                    <div class="map-detail-image" style="background-image: url('${heritage ? heritage.image : ''}')" role="img" aria-label="${site.name}"></div>
+                    <div class="map-detail-content">
+                        <span class="eyebrow">Selected heritage</span>
+                        <h3>${site.name}</h3>
+                        <p>${heritage ? heritage.detail : site.detail}</p>
+                        <div class="map-detail-meta">
+                            <span><b>Region</b>${heritage ? heritage.region : site.type}</span>
+                            <span><b>Period</b>${heritage ? heritage.era : 'Living heritage'}</span>
+                        </div>
+                        <span class="map-detail-type">${site.type}</span>
+                        ${site.sourceUrl ? `<a class="map-source-link" href="${site.sourceUrl}" target="_blank" rel="noopener noreferrer">Open ${site.sourceLabel || 'online reference'} <span aria-hidden="true">↗</span></a>` : ''}
+                    </div>
+                `;
+                updateHeritageView(site.query);
+            });
+        });
+        */
+
+        const stateProfiles = {
+            kerala: {
+                name: 'Kerala',
+                tag: 'Backwaters & Arts',
+                summary: 'Kerala is known for its lush landscapes, classical arts, vibrant festivals, and deep-rooted traditions that blend spirituality, craft, and community life.',
+                dimensions: {
+                    Language: 'Malayalam with regional dialects and strong oral traditions.',
+                    Clothing: 'Traditional white mundu, set sarees, kasavu border textiles, and handcrafted ornaments.',
+                    Customs: 'Temple rituals, family-oriented celebration, hospitality, and strong community bonding.',
+                    Festivals: 'Onam, Vishu, Thrissur Pooram, and temple-centered seasonal celebrations.',
+                    Food: 'Appam, puttu, sadhya, banana leaves, coconut-based dishes, and spice-rich cuisine.',
+                    Religion: 'Hindu traditions, Christian heritage, Islamic influences, and a culture of coexistence.',
+                    Heritage: 'Backwater culture, ancient temples, classical dance, and historic trade roots.',
+                    Arts: 'Kathakali, Mohiniyattam, mural art, percussion, and craft traditions.',
+                    Family: 'Joint family values, matrilineal cultural influences, and strong social ties.',
+                    Architecture: 'Traditional nalukettu homes, woodwork, courtyards, and temple-inspired vernacular design.'
+                }
+            },
+            rajasthan: {
+                name: 'Rajasthan',
+                tag: 'Desert Royalty',
+                summary: 'Rajasthan reflects royal traditions, folk music, desert crafts, vibrant textiles, and enduring community rituals shaped by heritage and migration.',
+                dimensions: {
+                    Language: 'Hindi, Rajasthani, Marwari, and multiple dialect forms across regions.',
+                    Clothing: 'Bandhani, lehenga-choli, turbans, mojari footwear, and embroidered shawls.',
+                    Customs: 'Rajput hospitality, wedding customs, folk rites, and colorful community events.',
+                    Festivals: 'Teej, Gangaur, Pushkar Fair, and desert folk celebrations.',
+                    Food: 'Dal baati churma, gatte ki sabzi, laal maas, ker sangri, and sweets like ghevar.',
+                    Religion: 'Hindu and Jain traditions strongly influence art, rituals, and community customs.',
+                    Heritage: 'Fort architecture, palaces, stepwells, and royal history across desert cities.',
+                    Arts: 'Kalbeliya dance, folk music, puppet theatre, block printing, and metal craft.',
+                    Family: 'Strong clan identity, multigenerational households, and ritual-driven social life.',
+                    Architecture: 'Havelis, forts, jharokhas, and sandstone craftsmanship with symbolic detailing.'
+                }
+            },
+            odisha: {
+                name: 'Odisha',
+                tag: 'Temple & Craft',
+                summary: 'Odisha blends spiritual architecture, classical dance, temple art, handloom textiles, and culinary traditions rooted in devotion and craftsmanship.',
+                dimensions: {
+                    Language: 'Odia with strong literary and devotional traditions.',
+                    Clothing: 'Traditional sambalpuri sarees, handloom fabrics, temple-inspired draping, and silver ornaments.',
+                    Customs: 'Temple rituals, ancestral traditions, marriage rites, and community festivals.',
+                    Festivals: 'Rath Yatra, Durga Puja, Nuakhai, and local harvest celebrations.',
+                    Food: 'Pakhala, dalma, chhena poda, rasagola, and rice-based seasonal dishes.',
+                    Religion: 'Shiva, Jagannath, and Vaishnav traditions with deep ritual significance.',
+                    Heritage: 'Sun Temple at Konark, ancient temples, sculpture traditions, and carved stone heritage.',
+                    Arts: 'Odissi dance, pattachitra, applique work, temple carvings, and folk music.',
+                    Family: 'Community-oriented living, ritual participation, and a strong cultural continuity.',
+                    Architecture: 'Temple complexes, stone carvings, sculpted facades, and urban planning tied to spiritual geometry.'
+                }
+            },
+            bihar: {
+                name: 'Bihar',
+                tag: 'Mithila & Memory',
+                summary: 'Bihar is deeply rooted in ancient learning, Mithila art, pilgrimage traditions, and a living culture shaped by festivals, scripture, and regional identity.',
+                dimensions: {
+                    Language: 'Hindi, Maithili, Bhojpuri, and rich oral storytelling traditions.',
+                    Clothing: 'Cotton sarees, traditional kurtas, festive jewelry, and craft-based textiles.',
+                    Customs: 'Ritual marriage customs, pilgrimage traditions, and family-centered observance of festivals.',
+                    Festivals: 'Chhath Puja, Holi, Sonepur Mela, and village fairs linked to agriculture and faith.',
+                    Food: 'Litti-chokha, khichdi, makhana, sattu, and seasonal sweets.',
+                    Religion: 'Hindu and Buddhist heritage with sacred pilgrimage centers and temple networks.',
+                    Heritage: 'Nalanda, Bodh Gaya, Mithila culture, and centuries of learned traditions.',
+                    Arts: 'Madhubani painting, folk storytelling, ritual art, and music traditions.',
+                    Family: 'Joint-family structures, inheritance values, and significant social rituals.',
+                    Architecture: 'Traditional homes, temple architecture, civic heritage, and historic Buddhist sites.'
+                }
+            },
+            tamilnadu: {
+                name: 'Tamil Nadu',
+                tag: 'Temple & Dravidian Grace',
+                summary: 'Tamil Nadu combines temple culture, classical arts, farm traditions, textile heritage, and a profound literary and devotional identity.',
+                dimensions: {
+                    Language: 'Tamil with a deep literary and classical base.',
+                    Clothing: 'Silk sarees, veshtis, dhotis, temple jewelry, and colorful festival dress.',
+                    Customs: 'Temple worship, family rituals, karagam traditions, and disciplined social etiquette.',
+                    Festivals: 'Pongal, Navaratri, Thaipusam, and temple-centered religious celebrations.',
+                    Food: 'Idli, dosa, sambar, filter coffee, rice dishes, and temple-style vegetarian cuisine.',
+                    Religion: 'Hindu traditions, temple worship, and deep philosophical roots.',
+                    Heritage: 'Mahabalipuram, Thanjavur, Chola temples, and classical cultural legacy.',
+                    Arts: 'Bharatanatyam, Carnatic music, bronze sculpture, and palm-leaf manuscripts.',
+                    Family: 'Strong family respect, temple-linked practices, and deeply rooted social rituals.',
+                    Architecture: 'Dravidian temples, gopurams, carved stone, and historic urban planning.'
+                }
+            },
+            maharashtra: {
+                name: 'Maharashtra',
+                tag: 'Folk Energy',
+                summary: 'Maharashtra reflects a blend of urban heritage, coastal traditions, tribal art, agricultural life, and lively festivals across regions.',
+                dimensions: {
+                    Language: 'Marathi with diverse regional and tribal variations.',
+                    Clothing: 'Nauvari sarees, dhotis, vibrant turbans, and regional festival wear.',
+                    Customs: 'Ganesh worship, social gatherings, community rituals, and folk rites.',
+                    Festivals: 'Ganesh Chaturthi, Gudi Padwa, Diwali, and local harvest festivals.',
+                    Food: 'Puran poli, vada pav, pav bhaji, misal, and coastal seafood dishes.',
+                    Religion: 'Hindu traditions with Buddhist and Sufi influences in many regions.',
+                    Heritage: 'Shivaji legacy, forts, caves, and historic trade routes.',
+                    Arts: 'Warli painting, Lavani, tamasha, folk theatre, and local crafts.',
+                    Family: 'Community gatherings, family-centered rituals, and urban-rural adaptability.',
+                    Architecture: 'Fort architecture, wada houses, coastal settlement design, and colonial blending.'
+                }
+            },
+            punjab: {
+                name: 'Punjab',
+                tag: 'Harvest & Spirit',
+                summary: 'Punjab is defined by its lively cultural traditions, agricultural rhythms, Sikh heritage, celebratory music, and strong community bonds.',
+                dimensions: {
+                    Language: 'Punjabi with strong Gurmukhi literary tradition.',
+                    Clothing: 'Salwar kameez, phulkari embroidery, turbans, and festive handloom garments.',
+                    Customs: 'Community hospitality, weddings, religious observance, and harvest celebrations.',
+                    Festivals: 'Baisakhi, Lohri, Gurpurabs, and seasonal folk fairs.',
+                    Food: 'Makki di roti, sarson da saag, chole bhature, lassi, and traditional sweets.',
+                    Religion: 'Sikhism, Hindu traditions, and devotional cultural blending.',
+                    Heritage: 'Gurdwaras, Sikh history, agricultural identity, and resilient social traditions.',
+                    Arts: 'Bhangra, gidha, phulkari, folk music, and ceremonial craft.',
+                    Family: 'Warm hospitality, strong kinship, and community-oriented celebration.',
+                    Architecture: 'Gurdwara architecture, village homes, courtyard living, and agrarian layouts.'
+                }
+            },
+            gujarat: {
+                name: 'Gujarat',
+                tag: 'Culture & Craft',
+                summary: 'Gujarat is rich in trade traditions, craft heritage, folk dance, vibrant festivals, and coastal cultural identity shaped by commerce and community.',
+                dimensions: {
+                    Language: 'Gujarati with a wide range of dialects and literary traditions.',
+                    Clothing: 'Chaniya cholis, bandhgalas, embroidered sarees, and festive silver jewelry.',
+                    Customs: 'Community festivals, rituals, family rites, and business hospitality.',
+                    Festivals: 'Navratri, Uttarayan, Diwali, and regional fairs.',
+                    Food: 'Dhokla, thepla, khandvi, undhiyu, and sweet delicacies like jalebi.',
+                    Religion: 'Hindu and Jain traditions with strong community participation.',
+                    Heritage: 'Trade networks, stepwells, temple architecture, and cultural migration histories.',
+                    Arts: 'Garba, dandiya, embroidery, block printing, and community performance arts.',
+                    Family: 'Close-knit family networks and ceremonial celebrations.',
+                    Architecture: 'Stepwells, havelis, temple forms, and urban planning shaped by climate.'
+                }
+            },
+            assam: {
+                name: 'Assam',
+                tag: 'River & Festival',
+                summary: 'Assam carries the richness of riverine culture, monsoon rituals, bamboo traditions, festivals, and a deep connection to both nature and identity.',
+                dimensions: {
+                    Language: 'Assamese with diverse tribal linguistic communities.',
+                    Clothing: 'Muga silk sarees, mekhela chador, bamboo weaving, and ornament traditions.',
+                    Customs: 'Bihu celebrations, community feasts, ancestral rituals, and river-bound cultural identity.',
+                    Festivals: 'Bihu, Tezpur festivals, and agrarian rites linked to the monsoon cycle.',
+                    Food: 'Rice, fish curry, pithas, bamboo shoot dishes, and herbal preparation traditions.',
+                    Religion: 'Vaishnavite traditions, tribal faith systems, and rituals shaped by nature.',
+                    Heritage: 'Ahom history, silk production, and river-based heritage communities.',
+                    Arts: 'Bihu dance, satriya, bamboo craft, weaving, and folk music traditions.',
+                    Family: 'Community rituals, kinship ties, and agricultural social life.',
+                    Architecture: 'Bamboo houses, Assamese heritage homes, satras, and nature-integrated living spaces.'
+                }
+            },
+            andhrapradesh: {
+                name: 'Andhra Pradesh',
+                tag: 'Coast & Sacred Arts',
+                summary: 'Andhra Pradesh brings together Buddhist sites, temple towns, coastal communities, handloom traditions, and expressive dance forms.',
+                dimensions: {
+                    Heritage: 'Amaravati, Lepakshi, Tirupati, and the historic port culture of the Coromandel coast.',
+                    Arts: 'Kuchipudi dance, Kalamkari painting, Kondapalli toys, and Mangalagiri weaving.',
+                    Festivals: 'Ugadi, Brahmotsavam, Sankranti, and village temple festivals.',
+                    Clothing: 'Uppada and Mangalagiri textiles, cotton sarees, silk, and regional jewelry.',
+                    Food: 'Pulihora, gongura, pesarattu, coastal seafood, and Andhra pickles.',
+                    Architecture: 'Dravidian temples, Buddhist stupas, stone gateways, and carved monolithic shrines.'
+                }
+            },
+            arunachalpradesh: {
+                name: 'Arunachal Pradesh',
+                tag: 'Himalayan Cultures',
+                summary: 'Arunachal Pradesh is home to diverse Himalayan communities whose festivals, textiles, oral traditions, and landscapes remain closely connected.',
+                dimensions: {
+                    Heritage: 'Tawang Monastery, Ziro Valley, Namdapha, and the living traditions of many tribal communities.',
+                    Arts: 'Tribal weaving, bamboo craft, wood carving, mask making, and ceremonial dance.',
+                    Festivals: 'Losar, Solung, Nyokum, Si-Donyi, and Mopin.',
+                    Clothing: 'Handwoven shawls, patterned jackets, traditional ornaments, and community-specific dress.',
+                    Food: 'Thukpa, momos, smoked meats, rice dishes, bamboo shoot, and millet preparations.',
+                    Architecture: 'Monasteries, longhouses, bamboo homes, and climate-responsive mountain settlements.'
+                }
+            },
+            chhattisgarh: {
+                name: 'Chhattisgarh',
+                tag: 'Forest & Folk Memory',
+                summary: 'Chhattisgarh preserves strong Adivasi and folk traditions through metalwork, dance, forest knowledge, ritual art, and historic temple landscapes.',
+                dimensions: {
+                    Heritage: 'Bastar cultural landscapes, Sirpur, Bhoramdeo temples, and Kanger Valley.',
+                    Arts: 'Bastar Dhokra, bell-metal work, wood carving, wall painting, Panthi, and Raut Nacha.',
+                    Festivals: 'Bastar Dussehra, Hareli, Madai, and tribal harvest celebrations.',
+                    Clothing: 'Handwoven cotton, regional jewelry, metal ornaments, and distinctive tribal textiles.',
+                    Food: 'Chila, fara, aamat, mahua preparations, rice, and forest produce.',
+                    Architecture: 'Stone temples, village shrines, timber homes, and craft-centered settlements.'
+                }
+            },
+            goa: {
+                name: 'Goa',
+                tag: 'Coastal Mosaic',
+                summary: 'Goa combines Konkan ecology, temple and church heritage, Indo-Portuguese architecture, music, foodways, and an active craft culture.',
+                dimensions: {
+                    Heritage: 'Old Goa churches, forts, temple towns, traditional villages, and protected coastal landscapes.',
+                    Arts: 'Folk theatre, mando music, coconut craft, pottery, brass work, and boatbuilding.',
+                    Festivals: 'Carnival, Shigmo, Sao Joao, Ganesh Chaturthi, and church feasts.',
+                    Clothing: 'Kunbi textiles, festive sarees, traditional jewelry, and coastal attire.',
+                    Food: 'Fish curry rice, xacuti, bebinca, vindaloo, poi bread, and cashew traditions.',
+                    Architecture: 'Whitewashed churches, colorful homes, laterite walls, balconies, and temple courtyards.'
+                }
+            },
+            haryana: {
+                name: 'Haryana',
+                tag: 'Epic Plains',
+                summary: 'Haryana connects the landscapes of the Mahabharata and Indus traditions with agricultural life, wrestling, folk music, and regional craft.',
+                dimensions: {
+                    Heritage: 'Kurukshetra, Rakhigarhi, Pinjore Gardens, and historic wells and stepwells.',
+                    Arts: 'Saang theatre, ragini singing, phulkari, pottery, folk dance, and wrestling akharas.',
+                    Festivals: 'Holi, Teej, Baisakhi, Surajkund crafts fair, and seasonal village fairs.',
+                    Clothing: 'Ghagra, daman, kurta, colorful odhnis, turbans, and silver ornaments.',
+                    Food: 'Bajra roti, chaach, churma, kachri, and seasonal dairy-based dishes.',
+                    Architecture: 'Courtyard homes, brick stepwells, historic gardens, and rural community spaces.'
+                }
+            },
+            himachalpradesh: {
+                name: 'Himachal Pradesh',
+                tag: 'Mountain Craft',
+                summary: 'Himachal Pradesh expresses mountain life through temple architecture, wool weaving, apple-growing communities, seasonal festivals, and oral traditions.',
+                dimensions: {
+                    Heritage: 'Kullu Valley, Shimla, Chamba, monasteries, and historic hill temples.',
+                    Arts: 'Kullu shawls, Chamba rumal, wood carving, miniature painting, and nati dance.',
+                    Festivals: 'Kullu Dussehra, Losar, Minjar, Shivratri, and village deity processions.',
+                    Clothing: 'Woolen shawls, Himachali caps, embroidered garments, and silver jewelry.',
+                    Food: 'Dham feast, sidu, madra, chha gosht, and mountain grains.',
+                    Architecture: 'Kath-kuni timber-and-stone homes, pagoda temples, forts, and colonial hill buildings.'
+                }
+            },
+            jharkhand: {
+                name: 'Jharkhand',
+                tag: 'Forest & Adivasi Arts',
+                summary: 'Jharkhand is shaped by forest communities, sacred groves, seasonal dance, metal craft, and a rich landscape of indigenous knowledge.',
+                dimensions: {
+                    Heritage: 'Saranda forests, Maluti temples, Netarhat, and community sacred groves.',
+                    Arts: 'Sohrai and Khovar painting, Dokra metalwork, bamboo craft, Chhau, and Jhumar.',
+                    Festivals: 'Sarhul, Karam, Sohrai, Tusu, and Mage Parab.',
+                    Clothing: 'Handwoven cotton, tribal jewelry, beadwork, and region-specific ceremonial dress.',
+                    Food: 'Dhuska, rugra, chilka roti, mahua, bamboo shoots, and millet dishes.',
+                    Architecture: 'Mud homes with painted walls, sacred groves, village akharas, and stone shrines.'
+                }
+            },
+            karnataka: {
+                name: 'Karnataka',
+                tag: 'Empire & Craft',
+                summary: 'Karnataka brings together the Vijayanagara ruins, Hoysala temples, coastal communities, classical music, and rich textile and woodcraft traditions.',
+                dimensions: {
+                    Heritage: 'Hampi, Pattadakal, Mysuru Palace, Channapatna, and the Hoysala temple landscapes.',
+                    Arts: 'Mysuru painting, Yakshagana, Carnatic music, sandalwood carving, and Channapatna toys.',
+                    Festivals: 'Mysuru Dasara, Ugadi, Karaga, Kambala, and temple jatre celebrations.',
+                    Clothing: 'Mysore silk, Ilkal sarees, Kasuti embroidery, turbans, and traditional jewelry.',
+                    Food: 'Bisi bele bath, ragi mudde, neer dosa, Mysore pak, and coastal fish curries.',
+                    Architecture: 'Hoysala sculpture, Dravidian temples, royal palaces, stepwells, and historic bazaars.'
+                }
+            },
+            madhyapradesh: {
+                name: 'Madhya Pradesh',
+                tag: 'Heartland Heritage',
+                summary: 'Madhya Pradesh holds ancient Buddhist, Hindu, and medieval landscapes alongside Gond art, textile traditions, music, and forest cultures.',
+                dimensions: {
+                    Heritage: 'Khajuraho, Sanchi, Bhimbetka, Mandu, Orchha, and Gwalior Fort.',
+                    Arts: 'Gond painting, Chanderi weaving, Maheshwari textiles, folk theatre, and tribal music.',
+                    Festivals: 'Khajuraho Dance Festival, Bhagoria, Diwali, Navratri, and local melas.',
+                    Clothing: 'Chanderi and Maheshwari sarees, cotton textiles, turbans, and silver jewelry.',
+                    Food: 'Poha, dal bafla, bhutte ka kees, sabudana, and tribal forest foods.',
+                    Architecture: 'Temple sculpture, Buddhist stupas, forts, palaces, rock shelters, and stepwells.'
+                }
+            },
+            manipur: {
+                name: 'Manipur',
+                tag: 'Dance & Valley Life',
+                summary: 'Manipur is known for graceful classical dance, handloom weaving, indigenous games, sacred landscapes, and strong community traditions.',
+                dimensions: {
+                    Heritage: 'Kangla Fort, Loktak Lake, Shree Govindajee Temple, and Keibul Lamjao.',
+                    Arts: 'Manipuri dance, Thang-Ta martial art, pottery, handloom, and Shumang Leela theatre.',
+                    Festivals: 'Yaoshang, Lai Haraoba, Ningol Chakouba, and Cheiraoba.',
+                    Clothing: 'Phanek, innaphi shawls, handwoven textiles, and traditional ornaments.',
+                    Food: 'Eromba, singju, chak-hao rice, fermented fish, and seasonal greens.',
+                    Architecture: 'Kangla structures, bamboo homes, valley courtyards, and sacred groves.'
+                }
+            },
+            meghalaya: {
+                name: 'Meghalaya',
+                tag: 'Living Landscapes',
+                summary: 'Meghalaya links Khasi, Jaintia, and Garo cultural traditions with living root bridges, music, weaving, and rain-shaped landscapes.',
+                dimensions: {
+                    Heritage: 'Living root bridges, Nartiang monoliths, sacred groves, caves, and traditional villages.',
+                    Arts: 'Bamboo and cane craft, weaving, folk music, drum traditions, and community dance.',
+                    Festivals: 'Wangala, Nongkrem, Behdeinkhlam, Shad Suk Mynsiem, and harvest rituals.',
+                    Clothing: 'Jainsem, dakmanda, handwoven shawls, beadwork, and bamboo accessories.',
+                    Food: 'Jadoh, tungrymbai, smoked meats, rice beer traditions, and forest produce.',
+                    Architecture: 'Bamboo homes, stone monoliths, rain-ready roofs, and community living spaces.'
+                }
+            },
+            mizoram: {
+                name: 'Mizoram',
+                tag: 'Hills & Community',
+                summary: 'Mizoram carries a strong ethic of community through weaving, choral music, dance, bamboo traditions, and hill-settlement life.',
+                dimensions: {
+                    Heritage: 'Traditional village landscapes, Reiek, Vantawng Falls, and community halls.',
+                    Arts: 'Puan weaving, bamboo craft, Cheraw bamboo dance, choral singing, and folk music.',
+                    Festivals: 'Chapchar Kut, Mim Kut, Pawl Kut, and community harvest celebrations.',
+                    Clothing: 'Puan textiles, woven shawls, patterned wraps, and hand-crafted accessories.',
+                    Food: 'Bai, smoked meat, bamboo shoot dishes, rice, and local greens.',
+                    Architecture: 'Bamboo-and-timber homes, village lanes, community halls, and hill settlements.'
+                }
+            },
+            nagaland: {
+                name: 'Nagaland',
+                tag: 'Tribes & Craft',
+                summary: 'Nagaland is a mosaic of Naga communities whose textiles, oral histories, festivals, foodways, and village institutions remain culturally vibrant.',
+                dimensions: {
+                    Heritage: 'Historic village settlements, Morungs, Dzuko Valley, and community landscapes.',
+                    Arts: 'Shawl weaving, beadwork, wood carving, log drums, warrior dances, and folk songs.',
+                    Festivals: 'Hornbill Festival, Moatsu, Sekrenyi, Aoling, and harvest ceremonies.',
+                    Clothing: 'Tribal shawls, wrap skirts, bead necklaces, patterned textiles, and ceremonial dress.',
+                    Food: 'Smoked pork, bamboo shoot, axone, sticky rice, and fermented foods.',
+                    Architecture: 'Morungs, carved village gates, timber homes, and communal longhouses.'
+                }
+            },
+            sikkim: {
+                name: 'Sikkim',
+                tag: 'Monastery & Mountain',
+                summary: 'Sikkim blends Buddhist monastery culture, Lepcha and Bhutia traditions, mountain ecology, handloom, and highland foodways.',
+                dimensions: {
+                    Heritage: 'Rumtek, Pemayangtse, Khecheopalri Lake, and historic mountain routes.',
+                    Arts: 'Thangka painting, carpet weaving, mask dances, wood carving, and handloom.',
+                    Festivals: 'Losar, Pang Lhabsol, Saga Dawa, Dasain, and Bumchu.',
+                    Clothing: 'Bakhu, thara, woolen shawls, traditional caps, and silver ornaments.',
+                    Food: 'Momos, thukpa, gundruk, fermented foods, and millet-based drinks.',
+                    Architecture: 'Monasteries, prayer wheels, timber homes, stone walls, and mountain settlements.'
+                }
+            },
+            telangana: {
+                name: 'Telangana',
+                tag: 'Deccan Stories',
+                summary: 'Telangana brings together Deccan forts, temple traditions, textile craft, folk performance, and the living culture of Hyderabad.',
+                dimensions: {
+                    Heritage: 'Charminar, Warangal Fort, Ramappa Temple, Golconda, and Deccan lakes.',
+                    Arts: 'Pochampally ikat, Cheriyal scrolls, Perini dance, Bidri-inspired craft, and Bonalu rituals.',
+                    Festivals: 'Bathukamma, Bonalu, Sammakka Saralamma Jatara, and Ramadan traditions.',
+                    Clothing: 'Pochampally ikat, Gadwal sarees, cotton textiles, and silver jewelry.',
+                    Food: 'Hyderabadi biryani, haleem, sarva pindi, sakinalu, and millet dishes.',
+                    Architecture: 'Qutb Shahi monuments, Kakatiya temples, stepwells, domes, and stone gateways.'
+                }
+            },
+            tripura: {
+                name: 'Tripura',
+                tag: 'Palace & Bamboo',
+                summary: 'Tripura combines royal history, indigenous communities, bamboo craft, temple landscapes, and music shaped by the eastern hills.',
+                dimensions: {
+                    Heritage: 'Ujjayanta Palace, Neermahal, Unakoti, and Pilak archaeological sites.',
+                    Arts: 'Bamboo and cane craft, handloom, Garia dance, Hojagiri, and woodwork.',
+                    Festivals: 'Garia Puja, Kharchi Puja, Ker Puja, and Durga Puja.',
+                    Clothing: 'Risa, rignai, handwoven shawls, and community-specific textiles.',
+                    Food: 'Mui borok, bamboo shoot, fermented fish, rice, and local herbs.',
+                    Architecture: 'Palaces, rock reliefs, bamboo homes, water pavilions, and temple complexes.'
+                }
+            },
+            uttarpradesh: {
+                name: 'Uttar Pradesh',
+                tag: 'Sacred Rivers',
+                summary: 'Uttar Pradesh holds major pilgrimage, Mughal, Buddhist, craft, music, and literary traditions along the Ganga and Yamuna plains.',
+                dimensions: {
+                    Heritage: 'Taj Mahal, Varanasi, Sarnath, Ayodhya, Fatehpur Sikri, and Lucknow.',
+                    Arts: 'Banarasi silk, chikankari, carpet weaving, Kathak, Hindustani music, and brass craft.',
+                    Festivals: 'Kumbh Mela, Diwali in Ayodhya, Holi, Ramleela, and Dev Deepawali.',
+                    Clothing: 'Banarasi sarees, chikankari, brocade, sherwanis, and regional textiles.',
+                    Food: 'Awadhi kebabs, kachori, peda, Banarasi chaat, and malaiyo.',
+                    Architecture: 'Mughal tombs, nawabi courtyards, temple ghats, Buddhist stupas, and grand gateways.'
+                }
+            },
+            uttarakhand: {
+                name: 'Uttarakhand',
+                tag: 'Himalayan Pilgrimage',
+                summary: 'Uttarakhand is shaped by Himalayan pilgrimage, folk songs, seasonal migration, forest knowledge, and mountain craft traditions.',
+                dimensions: {
+                    Heritage: 'Kedarnath, Badrinath, Jageshwar, Valley of Flowers, and historic hill settlements.',
+                    Arts: 'Aipan painting, ringaal bamboo craft, wool weaving, Chholiya dance, and folk music.',
+                    Festivals: 'Nanda Devi Raj Jat, Harela, Phool Dei, Kumaoni Holi, and local fairs.',
+                    Clothing: 'Woolen shawls, pichora, ghagra, caps, and silver ornaments.',
+                    Food: 'Kafuli, aloo ke gutke, bhatt, mandua roti, jhangora, and bal mithai.',
+                    Architecture: 'Stone-and-timber homes, mountain temples, pilgrimage routes, and fortified villages.'
+                }
+            },
+            westbengal: {
+                name: 'West Bengal',
+                tag: 'River, Literature & Art',
+                summary: 'West Bengal connects delta ecology, Bengali literature, temple art, music, craft, colonial city heritage, and village traditions.',
+                dimensions: {
+                    Heritage: 'Sundarbans, Bishnupur, Santiniketan, Victoria Memorial, and Darjeeling Himalayan Railway.',
+                    Arts: 'Kolkata art, terracotta, kantha embroidery, patachitra, Baul music, and jatra theatre.',
+                    Festivals: 'Durga Puja, Poila Boishakh, Poush Mela, Kali Puja, and Gajan.',
+                    Clothing: 'Tant and jamdani sarees, kantha, dhoti, and traditional handloom textiles.',
+                    Food: 'Machher jhol, shorshe, mishti doi, sandesh, pitha, and street-food traditions.',
+                    Architecture: 'Terracotta temples, colonial buildings, river ghats, zamindar homes, and hill railways.'
+                }
+            }
+        };
+
+        function normalizeStateText(value) {
+            return (value || '').toLowerCase().replace(/[^a-z\s]/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        function renderStateCards() {
+            const grid = document.getElementById('stateGrid');
+            grid.innerHTML = Object.values(stateProfiles).map((state, index) => `
+                <button class="state-card ${index === 0 ? 'active' : ''}" data-state="${state.name.toLowerCase()}">
+                    <span class="state-index">0${index + 1}</span>
+                    <strong>${state.name}</strong>
+                    <small>${state.tag}</small>
+                </button>
+            `).join('');
+
+            document.querySelectorAll('.state-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const stateKey = card.dataset.state;
+                    renderStateProfile(stateKey);
+                });
+            });
+        }
+
+        function renderStateProfile(stateKey) {
+            const key = Object.keys(stateProfiles).find(item => item === stateKey || stateProfiles[item].name.toLowerCase() === stateKey);
+            const profile = stateProfiles[key || 'kerala'];
+            const stateName = document.getElementById('stateName');
+            const stateTag = document.getElementById('stateTag');
+            const stateSummary = document.getElementById('stateSummary');
+            const profileDimensions = document.getElementById('profileDimensions');
+
+            stateName.textContent = profile.name;
+            stateTag.textContent = profile.tag;
+            stateSummary.textContent = profile.summary;
+            profileDimensions.innerHTML = Object.entries(profile.dimensions).map(([name, value]) => `
+                <div class="dimension">
+                    <h5>${name}</h5>
+                    <p>${value}</p>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.state-card').forEach(card => {
+                const active = card.dataset.state === profile.name.toLowerCase();
+                card.classList.toggle('active', active);
+            });
+        }
+
+        function handleStateSearch() {
+            const query = normalizeStateText(document.getElementById('stateSearchInput').value);
+            if (!query) return renderStateProfile('kerala');
+
+            for (const key in stateProfiles) {
+                const entry = stateProfiles[key];
+                const matchText = `${entry.name} ${entry.tag} ${Object.keys(entry.dimensions).join(' ')}`.toLowerCase();
+                if (matchText.includes(query)) {
+                    renderStateProfile(key);
+                    return;
+                }
+            }
+
+            renderStateProfile('kerala');
+        }
+
+        document.getElementById('stateSearchBtn').addEventListener('click', handleStateSearch);
+        document.getElementById('stateSearchInput').addEventListener('keydown', event => {
+            if (event.key === 'Enter') handleStateSearch();
+        });
+
+        renderStateCards();
+        renderStateProfile('kerala');
+
+        const heritageLibrary = {
+            konark: {
+                aliases: ['konark', 'konark sun temple', 'sun temple', 'konark temple'],
+                title: 'Konark Sun Temple',
+                detail: '13th-century stone chariot shaped temple in Odisha, symbolizing movement, cosmic rhythm, and temple architecture.',
+                related: ['Odisha temple architecture', 'Sun worship traditions', 'Chariot motif art', 'Classical Indian sculpture'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'Puri district, Odisha', era: '13th century', signal: 'Temple + Astronomy',
+                image: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=900&q=85'
+            },
+            madhubani: {
+                aliases: ['madhubani', 'madhubani art', 'mithila painting'],
+                title: 'Madhubani Art',
+                detail: 'A vibrant Mithila folk painting tradition from Bihar, known for mythological motifs and natural dyes.',
+                related: ['Mithila painting', 'Bihar cultural identity', 'Folk narrative art', 'Temple wall murals'],
+                model: 'https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb',
+                region: 'Mithila, Bihar', era: 'Living tradition', signal: 'Folk Art + Storytelling',
+                image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=900&q=85'
+            },
+            tanjore: {
+                aliases: ['tanjore', 'tanjore painting', 'thanjavur painting'],
+                title: 'Tanjore Painting',
+                detail: 'Tamil Nadu’s classical art form with gold foil work, rich pigments, and temple-inspired narratives.',
+                related: ['Thanjavur craftsmanship', 'Temple iconography', 'South Indian painting', 'Multi-layered gilding'],
+                model: 'https://modelviewer.dev/shared-assets/models/Horse.glb',
+                region: 'Thanjavur, Tamil Nadu', era: '16th century onwards', signal: 'Gold + Devotion',
+                image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=900&q=85'
+            },
+            warli: {
+                aliases: ['warli', 'warli art', 'warli painting'],
+                title: 'Warli Art',
+                detail: 'A tribal mural tradition from Maharashtra that reflects village life, rituals, and seasonal rhythms.',
+                related: ['Tribal folk art', 'Maharashtra village life', 'Harvest rituals', 'Natural pigment murals'],
+                model: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb',
+                region: 'Dahanu, Maharashtra', era: 'Living tradition', signal: 'Community + Nature',
+                image: 'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=85'
+            },
+            taj: {
+                aliases: ['taj mahal', 'taj', 'tajmahal'],
+                title: 'Taj Mahal',
+                detail: 'A marble mausoleum in Agra, celebrated as a timeless symbol of Mughal architecture and devotion.',
+                related: ['Mughal marble craftsmanship', 'Agra heritage tourism', 'Persian-inspired design', 'Love and memorial architecture'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'Agra, Uttar Pradesh', era: '17th century', signal: 'Architecture + Memory',
+                image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=85'
+            },
+            hampi: {
+                aliases: ['hampi', 'hampi ruins', 'vijayanagara'],
+                title: 'Hampi',
+                detail: 'The ruins of the Vijayanagara Empire in Karnataka, marked by grand temples, streets, and heritage landscape.',
+                related: ['Vijayanagara empire', 'Karnataka ruins', 'Temple complexes', 'Historic urban planning'],
+                model: 'https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb',
+                region: 'Vijayanagara, Karnataka', era: '14th-16th century', signal: 'Ruins + Urbanism',
+                image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sanchi%20Stupa.jpg?width=900'
+            },
+            qutub: {
+                aliases: ['qutub minar', 'qutub', 'qutubminar'],
+                title: 'Qutub Minar',
+                detail: 'A UNESCO-listed minaret in Delhi, representing Indo-Islamic architecture and early Delhi Sultanate history.',
+                related: ['Delhi heritage', 'Indo-Islamic architecture', 'Minaret design', 'Sultanate era'],
+                model: 'https://modelviewer.dev/shared-assets/models/Horse.glb',
+                region: 'Mehrauli, Delhi', era: '12th century', signal: 'Indo-Islamic Design',
+                image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=900&q=85'
+            },
+            golden: {
+                aliases: ['golden temple', 'harmandir sahib', 'amritsar golden temple'],
+                title: 'Golden Temple',
+                detail: 'The Harmandir Sahib in Amritsar is a spiritual and architectural center of Sikh heritage and community service.',
+                related: ['Sikh heritage', 'Amritsar pilgrimage', 'Langar tradition', 'Sacred architecture'],
+                model: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb',
+                region: 'Amritsar, Punjab', era: '18th century', signal: 'Faith + Community',
+                image: 'https://images.unsplash.com/photo-1588096290406-9c4b7b8c3f2e?auto=format&fit=crop&w=900&q=85'
+            },
+            kutch: {
+                aliases: ['kutch', 'kutch embroidery', 'kutch craft'],
+                title: 'Kutch Embroidery',
+                detail: 'A richly detailed textile tradition from Gujarat using mirror work, bold threads, and motifs tied to community identity.',
+                related: ['Gujarat textile heritage', 'Mirror work', 'Rabari embroidery', 'Women-led craft collectives'],
+                model: 'https://modelviewer.dev/shared-assets/models/Horse.glb',
+                region: 'Kutch, Gujarat', era: 'Living tradition', signal: 'Textile + Identity',
+                image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=900&q=85'
+            },
+            channapatna: {
+                aliases: ['channapatna', 'channapatna toys', 'wooden toys'],
+                title: 'Channapatna Toys',
+                detail: 'A Karnataka craft tradition of turned wooden toys, known for sustainable wood, bright colors, and safe natural finishes.',
+                related: ['Karnataka woodcraft', 'Lacquer work', 'Sustainable materials', 'Toy-making communities'],
+                model: 'https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb',
+                region: 'Channapatna, Karnataka', era: '18th century onwards', signal: 'Wood + Play',
+                image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=900&q=85'
+            },
+            pashmina: {
+                aliases: ['pashmina', 'kashmiri pashmina', 'kashmir shawl'],
+                title: 'Kashmiri Pashmina',
+                detail: 'Fine mountain wool transformed into heirloom textiles through patient hand-spinning, weaving, and embroidery.',
+                related: ['Kashmir handloom', 'Sozni embroidery', 'Mountain fibre knowledge', 'Textile conservation'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'Kashmir', era: 'Centuries-old tradition', signal: 'Wool + Patience',
+                image: 'https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=900&q=85'
+            },
+            victoria: {
+                aliases: ['victoria memorial', 'victoria museum', 'victoria kolkata'],
+                title: 'Victoria Memorial',
+                detail: 'A grand marble museum and memorial in Kolkata, built in the Indo-Saracenic style and surrounded by formal gardens.',
+                related: ['Kolkata colonial history', 'Indo-Saracenic architecture', 'Museum collections', 'Marble craftsmanship'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'Maidan, Kolkata, West Bengal', era: 'Early 20th century', signal: 'Marble + Memory',
+                image: 'https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=900&q=85'
+            },
+            howrah: {
+                aliases: ['howrah bridge', 'rabindra setu', 'howrah'],
+                title: 'Howrah Bridge',
+                detail: 'An iconic cantilever bridge over the Hooghly River and one of Kolkata’s defining landmarks.',
+                related: ['Hooghly River', 'Kolkata cityscape', 'Cantilever engineering', 'Urban heritage'],
+                model: 'https://modelviewer.dev/shared-assets/models/Horse.glb',
+                region: 'Hooghly River, Kolkata', era: '20th century', signal: 'Steel + City',
+                image: 'https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=900&q=85'
+            },
+            indianmuseum: {
+                aliases: ['indian museum', 'kolkata museum', 'imperial museum'],
+                title: 'Indian Museum',
+                detail: 'India’s oldest and largest multipurpose museum, with collections spanning archaeology, art, anthropology, and natural history.',
+                related: ['Archaeology', 'Indian art history', 'Natural history', 'Kolkata museums'],
+                model: 'https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb',
+                region: 'Park Street, Kolkata, West Bengal', era: 'Established 1814', signal: 'Knowledge + Collection',
+                image: 'https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=900&q=85'
+            },
+            marblepalace: {
+                aliases: ['marble palace', 'marble palace kolkata'],
+                title: 'Marble Palace',
+                detail: 'A nineteenth-century Kolkata mansion known for neoclassical architecture, sculpture, paintings, and an eclectic collection.',
+                related: ['North Kolkata heritage', 'Neoclassical architecture', 'Historic mansions', 'Art collections'],
+                model: 'https://modelviewer.dev/shared-assets/models/Horse.glb',
+                region: 'Muktaram Babu Street, Kolkata', era: '19th century', signal: 'Mansion + Art',
+                image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=85'
+            },
+            bishnupur: {
+                aliases: ['bishnupur', 'bishnupur terracotta temples', 'terracotta temples'],
+                title: 'Bishnupur Terracotta Temples',
+                detail: 'A remarkable group of terracotta temples in Bankura, decorated with panels showing stories, musicians, animals, and daily life.',
+                related: ['Bankura terracotta', 'Malla dynasty', 'Temple architecture', 'Bengal art'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'Bishnupur, Bankura, West Bengal', era: '17th-18th century', signal: 'Terracotta + Story',
+                image: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=900&q=85'
+            },
+            hazarduari: {
+                aliases: ['hazarduari palace', 'hazarduari', 'thousand door palace'],
+                title: 'Hazarduari Palace',
+                detail: 'A nineteenth-century palace beside the Bhagirathi River, known for its thousand-door design and historic collections.',
+                related: ['Murshidabad history', 'Nawab architecture', 'Bhagirathi River', 'Palace collections'],
+                model: 'https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb',
+                region: 'Lalbagh, Murshidabad, West Bengal', era: '19th century', signal: 'Palace + History',
+                image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Hazarduari%20Palace.jpg?width=900'
+            },
+            darjeelingrailway: {
+                aliases: ['darjeeling himalayan railway', 'toy train', 'darjeeling railway'],
+                title: 'Darjeeling Himalayan Railway',
+                detail: 'A historic mountain railway whose narrow-gauge route connects Darjeeling with the foothills through dramatic Himalayan scenery.',
+                related: ['UNESCO railway heritage', 'Himalayan landscape', 'Mountain engineering', 'Darjeeling culture'],
+                model: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb',
+                region: 'Darjeeling, West Bengal', era: 'Opened 1881', signal: 'Railway + Mountains',
+                image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=900&q=85'
+            },
+            sundarbans: {
+                aliases: ['sundarbans national park', 'sundarbans', 'sunderbans'],
+                title: 'Sundarbans National Park',
+                detail: 'A UNESCO-listed mangrove landscape shaped by tides, waterways, and one of the world’s largest delta ecosystems.',
+                related: ['Mangrove ecology', 'Ganges delta', 'Royal Bengal tiger', 'Natural heritage'],
+                model: 'https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb',
+                region: 'South 24 Parganas, West Bengal', era: 'Living natural heritage', signal: 'Mangrove + Tides',
+                image: 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=900&q=85'
+            },
+            santiniketan: {
+                aliases: ['santiniketan', 'shantiniketan', 'visva bharati'],
+                title: 'Santiniketan',
+                detail: 'The educational and cultural landscape founded around Visva-Bharati, shaped by Rabindranath Tagore’s ideas of learning and art.',
+                related: ['Rabindranath Tagore', 'Visva-Bharati', 'Bengal art', 'Open-air education'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'Birbhum, West Bengal', era: '19th-20th century', signal: 'Learning + Art',
+                image: 'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=900&q=85'
+            },
+            belurmath: {
+                aliases: ['belur math', 'belur', 'ramakrishna math'],
+                title: 'Belur Math',
+                detail: 'The headquarters of the Ramakrishna Math and Mission, known for its inclusive architecture and riverside cultural setting.',
+                related: ['Ramakrishna Mission', 'Swami Vivekananda', 'Hooghly River', 'Spiritual architecture'],
+                model: 'https://modelviewer.dev/shared-assets/models/Horse.glb',
+                region: 'Howrah, West Bengal', era: 'Founded 1897', signal: 'Faith + Harmony',
+                image: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=85'
+            },
+            kalighat: {
+                aliases: ['kalighat temple', 'kalighat', 'kalighat painting'],
+                title: 'Kalighat Temple',
+                detail: 'A major Shakti pilgrimage site in Kolkata and the namesake of the city’s famous Kalighat painting tradition.',
+                related: ['Shakti pilgrimage', 'Kali worship', 'Kalighat painting', 'Kolkata cultural history'],
+                model: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb',
+                region: 'Kalighat, Kolkata, West Bengal', era: '19th century temple form', signal: 'Devotion + Folk Art',
+                image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kalighat%20Temple.jpg?width=900'
+            },
+            sanchi: {
+                aliases: ['sanchi', 'sanchi stupa', 'stupa of sanchi', 'great stupa', 'great stupa of sanchi', 'sanchi buddhist complex', 'sanchi buddhist monument'],
+                title: 'Sanchi Stupa',
+                detail: 'Sanchi is a Buddhist heritage complex in Madhya Pradesh centered on the Great Stupa, with carved gateways, monasteries, temples, and relic monuments.',
+                related: ['Ashokan architecture', 'Buddhist pilgrimage', 'Stone gateways', 'Mauryan and Gupta heritage'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'Raisen district, Madhya Pradesh', era: '3rd century BCE onwards', signal: 'Buddhism + Stone Storytelling',
+                image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sanchi%20Stupa.jpg?width=900'
+            }
+        };
+
+        function normalizeQuery(text) {
+            return (text || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        function findHeritageEntry(query) {
+            const normalized = normalizeQuery(query);
+
+            for (const key in heritageLibrary) {
+                const entry = heritageLibrary[key];
+                const aliasText = [...entry.aliases, entry.title].map(item => normalizeQuery(item)).join(' ');
+
+                if (normalized.includes(key) || entry.aliases.some(alias => normalized.includes(normalizeQuery(alias)) || normalizeQuery(alias).includes(normalized)) || normalizeQuery(entry.title).includes(normalized)) {
+                    return entry;
+                }
+            }
+
+            return null;
+        }
+
+        function editDistance(first, second) {
+            const previous = Array.from({ length: second.length + 1 }, (_, index) => index);
+            for (let row = 1; row <= first.length; row += 1) {
+                const current = [row];
+                for (let column = 1; column <= second.length; column += 1) {
+                    current[column] = Math.min(
+                        current[column - 1] + 1,
+                        previous[column] + 1,
+                        previous[column - 1] + (first[row - 1] === second[column - 1] ? 0 : 1)
+                    );
+                }
+                previous.splice(0, previous.length, ...current);
+            }
+            return previous[second.length];
+        }
+
+        function getHeritageSuggestions(query) {
+            const normalized = normalizeQuery(query);
+            if (!normalized) return [];
+
+            const ignoredWords = new Set(['about', 'what', 'which', 'where', 'tell', 'show', 'give', 'the', 'is', 'are', 'me', 'of', 'in', 'for', 'and']);
+            const queryWords = normalized.split(' ').filter(word => word.length > 0 && !ignoredWords.has(word));
+            const candidates = new Map();
+
+            heritageSites.forEach(site => {
+                candidates.set(site.name, { title: site.name, subtitle: `${site.type}${site.state ? ` • ${site.state}` : ''}`, source: 'map', value: site.query });
+            });
+            Object.values(heritageLibrary).forEach(entry => {
+                if (!candidates.has(entry.title)) {
+                    candidates.set(entry.title, { title: entry.title, subtitle: `${entry.region} • ${entry.signal}`, source: 'library', value: entry.title });
+                }
+            });
+
+            return Array.from(candidates.values()).map(candidate => {
+                const title = normalizeQuery(candidate.title);
+                const titleWords = title.split(' ');
+                let score = 0;
+                queryWords.forEach(word => {
+                    if (title.includes(word)) score += title.startsWith(word) ? 100 : 70;
+                    titleWords.forEach(titleWord => {
+                        if (titleWord.startsWith(word)) score += 45;
+                        if (word.length >= 3 && titleWord.length >= 3) {
+                            const distance = editDistance(word, titleWord);
+                            if (distance <= Math.max(1, Math.floor(word.length / 3))) score += 35 - (distance * 8);
+                        }
+                    });
+                });
+                if (title.startsWith(normalized)) score += 120;
+                return { ...candidate, score };
+            }).filter(candidate => candidate.score > 0)
+                .sort((first, second) => second.score - first.score || first.title.localeCompare(second.title))
+                .slice(0, 8);
+        }
+
+        function hideSuggestions(list) {
+            list.hidden = true;
+            list.innerHTML = '';
+        }
+
+        function renderSuggestions(input, list, onSelect) {
+            const suggestions = getHeritageSuggestions(input.value);
+            if (!suggestions.length) {
+                hideSuggestions(list);
+                return;
+            }
+
+            list.innerHTML = suggestions.map((suggestion, index) => `
+                <button type="button" class="suggestion-item" role="option" data-suggestion-index="${index}">
+                    <strong>${suggestion.title}</strong>
+                    <small>${suggestion.subtitle}</small>
+                </button>
+            `).join('');
+            list.hidden = false;
+
+            list.querySelectorAll('.suggestion-item').forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    const selected = suggestions[index];
+                    input.value = selected.value;
+                    hideSuggestions(list);
+                    onSelect(selected);
+                });
+            });
+        }
+
+        function setupHeritageAutocomplete(inputId, listId, onSelect) {
+            const input = document.getElementById(inputId);
+            const list = document.getElementById(listId);
+            input.addEventListener('input', () => renderSuggestions(input, list, onSelect));
+            input.addEventListener('focus', () => renderSuggestions(input, list, onSelect));
+            input.addEventListener('keydown', event => {
+                const items = [...list.querySelectorAll('.suggestion-item')];
+                if (event.key === 'Escape') hideSuggestions(list);
+                if (event.key === 'ArrowDown' && items.length) {
+                    event.preventDefault();
+                    items[0].focus();
+                }
+            });
+            document.addEventListener('click', event => {
+                if (!input.parentElement.contains(event.target)) hideSuggestions(list);
+            });
+        }
+
+        /* Map search moved to map.js.
+        function searchHeritageOnMap() {
+            const input = document.getElementById('mapHeritageSearchInput');
+            const query = input.value.trim();
+            if (!query) return;
+
+            const searchWords = normalizeQuery(query).split(' ').filter(Boolean);
+            const site = heritageSites.find(entry => {
+                const searchableText = normalizeQuery(`${entry.name} ${entry.type}`);
+                return searchWords.every(word => searchableText.includes(word));
+            });
+
+            if (!site) {
+                const details = document.getElementById('mapHeritageDetails');
+                details.innerHTML = `
+                    <span class="eyebrow">Place not found</span>
+                    <p>Try a name such as Victoria, Bishnupur, Darjeeling, Sundarbans, or Konark.</p>
+                `;
+                return;
+            }
+
+            const marker = heritageMarkers.get(site.name);
+            map.setView([site.lat, site.lng], 8, { animate: true });
+            marker.fire('click');
+            input.value = site.name;
+        }
+
+        document.getElementById('mapHeritageSearchBtn').addEventListener('click', searchHeritageOnMap);
+        document.getElementById('mapHeritageSearchInput').addEventListener('keydown', event => {
+            if (event.key === 'Enter') searchHeritageOnMap();
+        });
+
+        setupHeritageAutocomplete('mapHeritageSearchInput', 'mapHeritageSuggestions', suggestion => {
+            const site = heritageSites.find(entry => entry.name === suggestion.title);
+            if (site) {
+                map.setView([site.lat, site.lng], 8, { animate: true });
+                heritageMarkers.get(site.name).fire('click');
+            }
+        });
+        */
+
+        function updateHeritageView(query) {
+            const viewer = document.getElementById('heritageViewer');
+            const modelFallback = document.getElementById('modelFallback');
+            const modelContainer = document.querySelector('.model-container');
+            const infoBox = document.getElementById('heritageInfoBox');
+            const searchInput = document.getElementById('heritageSearchInput');
+            const choice = findHeritageEntry(query) || {
+                title: 'Cultural Discovery',
+                detail: 'Search for a monument, craft, or region to load it into the immersive 3D experience.',
+                related: ['Monuments', 'Craft traditions', 'Cultural routes', 'Regional heritage'],
+                model: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+                region: 'India', era: 'Living archive', signal: 'Search the collection',
+                image: 'https://images.unsplash.com/photo-1532664189809-02133fee698d?auto=format&fit=crop&w=900&q=85'
+            };
+
+            viewer.setAttribute('src', choice.model);
+            viewer.setAttribute('alt', choice.title);
+            viewer.setAttribute('poster', choice.image);
+            const isSanchi = choice.title === 'Sanchi Stupa';
+            modelContainer.classList.toggle('sanchi-preview', isSanchi);
+            viewer.classList.toggle('heritage-model-hidden', isSanchi || Boolean(findHeritageEntry(query)));
+            modelFallback.style.backgroundImage = `url('${choice.image}')`;
+            modelFallback.querySelector('strong').textContent = `${choice.title} 3D preview`;
+            modelFallback.classList.add('visible');
+            infoBox.innerHTML = `
+                <div class="heritage-result-visual" style="background-image: url('${choice.image}')">
+                    <span>${choice.signal}</span>
+                </div>
+                <div class="heritage-result-copy">
+                    <strong>Featured Heritage: ${choice.title}</strong>
+                    <p>${choice.detail}</p>
+                    <div class="heritage-meta"><span><b>Region</b>${choice.region}</span><span><b>Period</b>${choice.era}</span></div>
+                </div>
+                <div class="heritage-related">
+                    ${choice.related.map(item => `<span>${item}</span>`).join('')}
+                </div>
+            `;
+            searchInput.value = choice.title;
+            document.getElementById('heritageSearchStatus').textContent = `${choice.title} loaded`;
+        }
+
+        document.getElementById('heritageSearchBtn').addEventListener('click', () => {
+            const query = document.getElementById('heritageSearchInput').value;
+            updateHeritageView(query);
+        });
+
+        document.getElementById('clearHeritageSearch').addEventListener('click', () => {
+            const input = document.getElementById('heritageSearchInput');
+            input.value = '';
+            document.getElementById('heritageSearchStatus').textContent = 'Ready to explore';
+            input.focus();
+            hideSuggestions(document.getElementById('heritageSuggestions'));
+        });
+
+        document.getElementById('heritageSearchInput').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                updateHeritageView(event.target.value);
+            }
+        });
+
+        setupHeritageAutocomplete('heritageSearchInput', 'heritageSuggestions', suggestion => {
+            updateHeritageView(suggestion.value);
+        });
+
+        setupHeritageAutocomplete('userInput', 'guideSuggestions', suggestion => {
+            document.getElementById('userInput').value = suggestion.value;
+        });
+
+        document.getElementById('heritageViewer').addEventListener('load', () => {
+            if (!document.getElementById('heritageViewer').classList.contains('heritage-model-hidden')) {
+                document.getElementById('modelFallback').classList.remove('visible');
+            }
+        });
+
+        document.getElementById('heritageViewer').addEventListener('error', () => {
+            document.getElementById('modelFallback').classList.add('visible');
+        });
+
+        document.querySelectorAll('[data-state-search]').forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById('stateSearchInput').value = button.dataset.stateSearch;
+                handleStateSearch();
+            });
+        });
+
+        document.getElementById('startExperienceBtn').addEventListener('click', () => {
+            document.getElementById('heritageSearchInput').focus();
+            document.getElementById('heritageSearchInput').select();
+        });
+
+        document.getElementById('exploreHeritageBtn').addEventListener('click', () => {
+            document.getElementById('map-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        document.querySelectorAll('.craft-action').forEach(button => {
+            button.addEventListener('click', () => {
+                const heritageInput = document.getElementById('heritageSearchInput');
+                heritageInput.value = button.dataset.craft;
+                updateHeritageView(button.dataset.craft);
+                document.querySelector('.immersive-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+
+        updateHeritageView('Konark Sun Temple');
+
+        async function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            const chatHistory = document.getElementById('chatHistory');
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'msg user';
+            userMsgDiv.innerHTML = `<span class="sender">You</span>${message}`;
+            chatHistory.appendChild(userMsgDiv);
+            inputField.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            try {
+                const heritageMatch = findHeritageEntry(message);
+                let aiReply;
+
+                if (heritageMatch) {
+                    aiReply = `
+                        <strong>${heritageMatch.title}</strong><br>
+                        ${heritageMatch.detail}<br><br>
+                        <span>Related heritage context:</span><br>
+                        ${heritageMatch.related.join(' • ')}
+                    `;
+                    updateHeritageView(heritageMatch.title);
+                } else {
+                    const response = await fetch('http://127.0.0.1:8000/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: message })
+                    });
+                    const data = await response.json();
+                    aiReply = data.reply;
+                }
+
+                const aiMsgDiv = document.createElement('div');
+                aiMsgDiv.className = 'msg ai';
+                aiMsgDiv.innerHTML = `<span class="sender">SANSKRITISETU AI</span>${aiReply}`;
+                chatHistory.appendChild(aiMsgDiv);
+            } catch (error) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'msg ai';
+                errorDiv.innerHTML = `<span class="sender">SANSKRITISETU AI</span>I could not reach the heritage guide right now. Please make sure the local server is running, then ask again about a specific monument, craft, festival, or tradition.`;
+                chatHistory.appendChild(errorDiv);
+            }
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        window.sanskritiSetu = {
+            findHeritageEntry,
+            normalizeQuery,
+            setupHeritageAutocomplete,
+            updateHeritageView
+        };
+    </script>
+    <script src="map.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

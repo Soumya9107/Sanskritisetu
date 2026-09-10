@@ -1,0 +1,10 @@
+{
+    "name": "SANSKRITISETU - Indian Heritage Reimagined",
+    "short_name": "SANSKRITISETU",
+    "description": "Explore India's living heritage through stories, maps, crafts, and immersive experiences.",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#07131c",
+    "theme_color": "#07131c",
+    "icons": []
+}
